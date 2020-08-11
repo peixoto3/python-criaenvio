@@ -1,0 +1,2 @@
+class CriaEnvioExcecao(Exception):
+    pass
