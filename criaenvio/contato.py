@@ -34,10 +34,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
             "data_de_nascimento": data_de_nascimento
         }
 
-        return self._requisicao_post(
-            self._montar_url(),
-            corpo_requisicao
-        )
+        return self._requisicao_post(self._obter_url(), corpo_requisicao)
 
     def listar(self) -> dict:
         """
@@ -47,7 +44,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
                 /contatos/
         """
 
-        return self._requisicao_get(self._montar_url())
+        return self._requisicao_get(self._obter_url())
 
     def obter_por_id(self, id):
         """
@@ -57,9 +54,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
                 /contatos/{id}?{embeds}
         """
 
-        return self._requisicao_get(
-            self._montar_url(parametros=id)
-        )
+        return self._requisicao_get(self._obter_url(url=id))
 
     def atualizar(self, id, nome, email, sexo=None, data_de_nascimento=None) -> dict:
         corpo_requisicao = {
@@ -69,10 +64,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
             "data_de_nascimento": data_de_nascimento
         }
 
-        return self._requisicao_put(
-            self._montar_url(parametros=id),
-            corpo_requisicao
-        )
+        return self._requisicao_put(self._obter_url(url=id), corpo_requisicao)
 
     def inscrever_em_lista(self, id, listas):
         # TODO
@@ -94,7 +86,4 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
             "idGrupos": listas
         }
 
-        return self._requisicao_post(
-            self._montar_url(parametros=f'{id}/inscrever'),
-            corpo_requisicao
-        )
+        return self._requisicao_post(self._obter_url(url=f'{id}/inscrever'), corpo_requisicao)

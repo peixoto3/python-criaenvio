@@ -24,8 +24,8 @@ class APIClienteCriaEnvio(ABC):
     def __init__(self, chave_api: str):
         self._chave_api = chave_api
 
-    def _montar_url(self, parametros: str = '') -> str:
-        return f'{self.URL_API}/{self.RECURSO}/{parametros}?chave={self._chave_api}'
+    def _obter_url(self, url: str = '') -> str:
+        return f'{self.URL_API}/{self.RECURSO}/{url}?chave={self._chave_api}'
 
     def _requisicao_get(self, url: str) -> dict:
         return requests.get(url).json()
