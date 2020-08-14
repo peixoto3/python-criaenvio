@@ -116,7 +116,7 @@ Clone o projeto repositório:
 $ git clone https://github.com/peixoto3/python-criaenvio
 ```
 
-Certifique-se de que o [Pipenv](https://github.com/kennethreitz/pipenv) está instalado, caso contrário:
+Instale o [Pipenv](https://github.com/kennethreitz/pipenv):
 
 ```bash
 $ pip install pipenv
