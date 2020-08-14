@@ -8,6 +8,9 @@ from criaenvio.contato import ContatoCriaEnvioAPI
 
 class TestContatoCliente(unittest.TestCase):
 
+    # TODO
+    # separar teste do metodo obter_url para uma classe de teste especifica
+
     def setUp(self) -> None:
         self.chave_api = config('CHAVE_API')
 
@@ -189,8 +192,36 @@ class TestContatoCliente(unittest.TestCase):
 
         self.assertEqual(lista_contatos_esperada, contatos)
 
-    def test_inscrever_em_lista(self):
-        pass
+    @patch('requests.post')
+    def test_inscrever_em_lista(self, mock_inscrever_em_lista):
+        retorno_insricao_lista_esperado = {
+            "data": {
+                "OK": "OK"
+            }
+        }
 
-    def test_inscrever_em_varias_listas(self):
-        pass
+        mock_inscrever_em_lista.return_value.json.return_value = retorno_insricao_lista_esperado
+
+        id_contato_para_inscricao = 'qLGoa'
+        lista_para_inscricao = ['LljW', ]
+
+        retorno = self.cliente_contato.inscrever_em_lista(id_contato_para_inscricao, lista_para_inscricao)
+
+        self.assertEqual(retorno_insricao_lista_esperado, retorno)
+
+    @patch('requests.post')
+    def test_inscrever_em_varias_listas(self, mock_inscrever_em_varias_listas):
+        retorno_insricao_lista_esperado = {
+            "data": {
+                "OK": "OK"
+            }
+        }
+
+        mock_inscrever_em_varias_listas.return_value.json.return_value = retorno_insricao_lista_esperado
+
+        id_contato_para_inscricao = 'qLGoa'
+        listas_para_inscricao = ['LljW', 'Lljs', 'LljD', 'aljW']
+
+        retorno = self.cliente_contato.inscrever_em_lista(id_contato_para_inscricao, listas_para_inscricao)
+
+        self.assertEqual(retorno_insricao_lista_esperado, retorno)
