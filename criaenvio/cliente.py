@@ -1,4 +1,7 @@
 from abc import ABC
+from typing import Dict, Any
+from urllib.parse import urlencode
+
 import requests
 
 
@@ -24,17 +27,54 @@ class APIClienteCriaEnvio(ABC):
     def __init__(self, chave_api: str):
         self._chave_api = chave_api
 
-    def _obter_url(self, url: str = '') -> str:
-        return f'{self.URL_API}/{self.RECURSO}/{url}?chave={self._chave_api}'
+    def _obter_url(self, **kwargs) -> str:
+        """
 
-    def _requisicao_get(self, url: str) -> dict:
+        A url da API pode conter um caminho/acao e/ou parametros (query string);
+        Toda requisição envia uma query string na URL chave, que contem o valor da chave de autenticacao.
+
+        Exemplo:
+            https://api.criaenvio.com/v1/campos?chave=V2FASZTf208fhs98cwuTVZ4WHcuZkcwMWguDssY=
+
+        exemplo com caminho id:
+            https://api.criaenvio.com/v1/contatos/{id}
+
+        exemplo com caminho id mais acao
+            https://api.criaenvio.com/v1/contatos/{id}/ativar
+            https://api.criaenvio.com/v1/contatos/{id}/desativar
+
+        exemplo com caminho id mais parametros
+            https://api.criaenvio.com/v1/contatos/{id}?{embeds}
+
+        exemplo com caminho id mais acao mais parametros
+            https://api.criaenvio.com/v1/contatos/{id}/inscrever?{embeds}
+
+        Saiba mais em: https://novo.nitronews.com.br/integracao/documentacao-api
+        """
+
+        url_completa = f'{self.URL_API}/{self.RECURSO}'
+
+        caminho = kwargs.get('caminho', '')
+        parametros = kwargs.get('parametros', {})
+
+        url_completa += caminho
+
+        if not parametros:
+            return f'{url_completa}?chave={self._chave_api}'
+
+        parametros_url = urlencode(parametros)
+        url_completa += f'?{parametros_url}&chave={self._chave_api}'
+
+        return url_completa
+
+    def _requisicao_get(self, url: str) -> Dict[Any, Any]:
         return requests.get(url).json()
 
-    def _requisicao_post(self, url: str, corpo_requisicao: dict = None) -> dict:
+    def _requisicao_post(self, url: str, corpo_requisicao: dict = None) -> Dict[Any, Any]:
         return requests.post(url, data=corpo_requisicao).json()
 
-    def _requisicao_put(self, url: str, corpo_requisicao: dict = None) -> dict:
+    def _requisicao_put(self, url: str, corpo_requisicao: dict = None) -> Dict[Any, Any]:
         return requests.put(url, data=corpo_requisicao).json()
 
-    def _requisicao_delete(self, url) -> dict:
-        pass
+    def _requisicao_delete(self, url) -> Dict[Any, Any]:
+        return requests.delete(url).json()
