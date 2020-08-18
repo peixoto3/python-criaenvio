@@ -67,7 +67,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
                   email: str,
                   sexo: str = None,
                   data_de_nascimento: str = None
-                  ) -> Dict[str, str]:
+                  ):
         caminho_url = f'/{id}'
 
         corpo_requisicao = {
