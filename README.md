@@ -128,6 +128,9 @@ Instale as dependências:
 $ pipenv install --dev
 ```
 
+Configure seu arquivo de configuração de acordo com a biblioteca python-decouple, para mais informações 
+visite a [documentação](https://github.com/henriquebastos/python-decouple) da biblioteca.
+
 Para executar os testes:
 
 ```bash
