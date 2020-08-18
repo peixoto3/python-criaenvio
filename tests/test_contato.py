@@ -134,6 +134,48 @@ class TestContatoCliente(unittest.TestCase):
 
         self.assertEqual(contato_esperado, contato)
 
+    @patch('requests.post')
+    def test_obter_contato_por_id_com_grupo(self, moock_obter_contato_por_id_com_grupo):
+        contato_esperado = {
+            'data': {
+                'id': 'qLGoa',
+                'nome': 'Guilherme Peixoto',
+                'email': 'gpeixoto3@gmail.com',
+                'qualidade': '5',
+                'ativo': True,
+                'descadastrado': False,
+                'sexo': None,
+                'dataNascimento': None,
+                'dataCadastro': '2020-08-14 00:05:00',
+                'grupos': {
+                    'data': [
+                        {
+                            'id': 'Lljy',
+                            'nome': 'Inglês',
+                            'ativo': True,
+                            'contatos_ativos': '2'
+                        }
+                    ],
+                    'pagination': {
+                        'total': 1,
+                        'count': 1,
+                        'per_page': 30,
+                        'current_page': 1,
+                        'total_pages': 1,
+                        'links': []
+                    }}},
+            'embeds': [
+                'grupos',
+                'campos'
+            ]
+        }
+
+        moock_obter_contato_por_id_com_grupo.return_value.json.return_value = contato_esperado
+
+        contato = self.cliente_contato.obter_por_id('qLGoa', grupos=True)
+
+        self.assertEqual(contato_esperado, contato)
+
     @patch('requests.get')
     def test_obter_lista_de_contatos(self, mock_obter_lista_de_contatos):
         lista_contatos_esperada = {

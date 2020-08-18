@@ -12,7 +12,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
 
     RECURSO = 'contatos'
 
-    def criar(self, nome: str, email: str, sexo: str = None, data_de_nascimento: str = None) -> Dict[str, str]:
+    def criar(self, nome: str, email: str, sexo: str = None, data_de_nascimento: str = None):
         """
         API que cadastra um novo contato
 
@@ -32,7 +32,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
 
         return self._requisicao_post(self._obter_url(), corpo_requisicao)
 
-    def listar(self, numero_pagina: str = '', tamanho_pagina: str = '') -> Dict[str, str]:
+    def listar(self, numero_pagina: str = '', tamanho_pagina: str = ''):
         """
          API retorna uma lista de Contatos
 
@@ -48,7 +48,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
 
         return self._requisicao_get(self._obter_url(parametros=parametros))
 
-    def obter_por_id(self, id: str, grupos=False) -> Dict[str, str]:
+    def obter_por_id(self, id: str, grupos=False):
         """
         API visualiza um unico contato por id como tambem os grupos do contato se passado como True.
         """
@@ -79,7 +79,7 @@ class ContatoCriaEnvioAPI(APIClienteCriaEnvio):
 
         return self._requisicao_put(self._obter_url(caminho=caminho_url), corpo_requisicao)
 
-    def inscrever_em_lista(self, id: str, listas: List[str]) -> Dict[str, str]:
+    def inscrever_em_lista(self, id: str, listas: List[str]):
         """
         Inscreve o contato em uma ou mais listas.
 
